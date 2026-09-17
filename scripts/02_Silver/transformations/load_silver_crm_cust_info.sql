@@ -13,7 +13,7 @@ Transformation Logic:
 */
 
 USE DataWarehouse;
-GO
+
 
 PRINT '-------------------------------------------------------------------------------';
 PRINT 'Loading Table: silver.crm_cust_info';
@@ -57,7 +57,7 @@ FROM
         -- Deduplication: Pick the most recent record per customer
         ROW_NUMBER() OVER(
             PARTITION BY cst_id 
-            ORDER BY cst_create_date DESC, dwh_create_date DESC
+            ORDER BY cst_create_date DESC
         ) AS flag
     FROM bronze.crm_cust_info
     WHERE cst_id IS NOT NULL -- Exclude records without primary key early
@@ -65,4 +65,3 @@ FROM
 WHERE flag = 1;
 
 PRINT 'Successfully loaded table: silver.crm_cust_info';
-GO
