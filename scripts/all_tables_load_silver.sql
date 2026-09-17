@@ -1,6 +1,6 @@
 /*
 ===============================================================================
-Stored Procedure: all_tables_load_silver.sql
+Stored Procedure: silver.all_tables_load_silver
 Description     : Executes the full Refresh ETL pipeline for the Silver Layer.
                   Cleanses, standardizes, deduplicates, and enriches raw data 
                   from the Bronze Layer tables and loads it into the Silver Layer.
@@ -23,7 +23,7 @@ WARNING / PRECAUTIONS:
 ===============================================================================
 */
 
--- For Texting The PROCEDURE
+-- For Testing The PROCEDURE
 -- EXEC silver.load_silver
 
 CREATE OR ALTER PROCEDURE silver.load_silver
@@ -317,11 +317,15 @@ BEGIN
 
     END TRY
     BEGIN CATCH
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorNumber INT = ERROR_NUMBER();
+        DECLARE @ErrorState INT = ERROR_STATE();
+
         PRINT '===============================================================================';
         PRINT 'ERROR OCCURRED DURING SILVER LAYER LOAD!';
-        PRINT 'Error Message : ' + ERROR_MESSAGE();
-        PRINT 'Error Number  : ' + CAST(ERROR_NUMBER() AS VARCHAR);
-        PRINT 'Error State   : ' + CAST(ERROR_STATE() AS VARCHAR);
+        PRINT 'Error Message : ' + @ErrorMessage;
+        PRINT 'Error Number  : ' + CAST(@ErrorNumber AS VARCHAR);
+        PRINT 'Error State   : ' + CAST(@ErrorState AS VARCHAR);
         PRINT '===============================================================================';
         
         THROW;
