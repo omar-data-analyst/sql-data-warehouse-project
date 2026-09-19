@@ -57,10 +57,38 @@ The final analytics layer is structured as a **Star Schema** to optimize query p
 │       ├── data_model.png
 │       └── data_model.drawio
 ├── scripts/
-│   ├── bronze/
-│   │   └── ddl_bronze.sql
+│   ├── 01_bronze/
+│   │   ├── 01_create_bronze_tables.sql.sql
+│   │   └── 02_load_bronze_bulk
+│   │
 │   ├── silver/
-│   │   └── proc_load_silver.sql
+│   │   ├── 01_create_silver_tables.sql
+│   │   └── 02_all_tables_load_silver.sql
+│   │
 │   └── gold/
-│       └── ddl_gold.sql
+│       ├── 01_create_all_gold_views.sql
+│       └── 02_full_data_quality_checks_gold.sql
+
 └── README.md
+```
+
+## 🛠️ Tech Stack & Skills
+
+1- Language: SQL (DDL, DML, Stored Procedures, Transformations)
+
+2- Architecture: Medallion Architecture (Bronze → Silver → Gold)
+
+3- Modeling: Star Schema (Dimensional Modeling via Draw.io)
+
+Version Control: Git & GitHub
+
+## 🚀 Execution Guide
+
+1- Bronze Layer: Run scripts/01_bronze/01_create_silver_tables.sql
+ to initialize raw ingestion tables and load source files.
+
+2- Silver Layer: Execute scripts/silver/01_create_silver_tables.sql & 02_all_tables_load_silver.sql
+to clean and transform data into standardized structures.
+
+3- Gold Layer: Run scripts/gold/01_create_all_gold_views.sql 
+to build dimensions, facts, and business logic calculations.
